@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Modération des Associations - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-semibold mb-6 text-gray-800">Modération des Associations</h1>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 rounded shadow-sm">
+      <thead class="bg-yellow-600 text-white">
+        <tr>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Nom de l'Association</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Email</th>
+          <th class="py-2 px-4 text-center text-sm font-semibold">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for association in associations_non_validees %}
+          <tr class="border-t border-gray-200 hover:bg-gray-50">
+            <td class="py-2 px-4 text-sm font-medium text-yellow-700">{{ association.username }}</td>
+            <td class="py-2 px-4 text-sm">{{ association.email }}</td>
+            <td class="py-2 px-4 text-center text-sm">
+              <form method="post" class="inline-flex space-x-2 justify-center">
+                {% csrf_token %}
+                <input type="hidden" name="association_id" value="{{ association.id }}">
+                <button type="submit" name="action" value="valider" 
+                        class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition font-semibold">
+                  Valider
+                </button>
+                <button type="submit" name="action" value="rejeter" 
+                        class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition font-semibold">
+                  Rejeter
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3" class="py-4 text-center text-gray-500 italic">Aucune association en attente de modération.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

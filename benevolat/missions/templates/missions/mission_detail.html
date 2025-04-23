@@ -1,0 +1,6 @@
+<h3>Signaler cette mission</h3>
+<form method="POST" action="{% url 'signaler_mission' mission.id %}">
+    {% csrf_token %}
+    <textarea name="motif" placeholder="Expliquez votre signalement" required></textarea>
+    <button type="submit">Envoyer</button>
+</form>

@@ -1,0 +1,34 @@
+{% extends "baseM.html" %}
+
+{% block title %}Historique de vos participations - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <h2 class="text-3xl font-semibold mb-6 text-gray-800">Historique de vos participations</h2>
+
+  {% if participations %}
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-200 rounded shadow-sm">
+        <thead class="bg-indigo-600 text-white">
+          <tr>
+            <th class="py-2 px-4 text-left text-sm font-semibold">Mission</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold">Date de Participation</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold">Bénévole</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for participation in participations %}
+            <tr class="border-t border-gray-200 hover:bg-gray-50">
+              <td class="py-2 px-4 text-sm">{{ participation.mission.titre }}</td>
+              <td class="py-2 px-4 text-sm">{{ participation.date_participation|date:"d/m/Y" }}</td>
+              <td class="py-2 px-4 text-sm">{{ participation.utilisateur.username }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-gray-600 italic">Aucune participation trouvée.</p>
+  {% endif %}
+</div>
+{% endblock %}

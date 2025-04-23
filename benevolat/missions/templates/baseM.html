@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Plateforme de Bénévolat{% endblock %}</title>
+  {% load static %}
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+
+  <!-- HEADER / NAVBAR -->
+  <header class="bg-white shadow">
+    <nav class="container mx-auto px-4 py-4 flex items-center justify-between relative">
+
+      <!-- Lien Liste Missions toujours visible -->
+      <a href="{% url 'missions:liste_missions' %}" class="text-xl font-bold text-blue-600 hover:text-blue-700">
+        Liste Missions
+      </a>
+
+      <!-- Bouton Menu -->
+      <div class="relative">
+        <button id="menu-button" aria-expanded="false" aria-haspopup="true" aria-controls="menu"
+          class="text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md px-3 py-2 font-semibold"
+          aria-label="Ouvrir le menu">
+          Menu
+          <svg class="inline-block w-5 h-5 ml-1" fill="none" stroke="currentColor" stroke-width="2" 
+               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <!-- Menu déroulant caché au départ -->
+        <div id="menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+          <ul class="py-1 text-gray-700" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+            <li><a href="{% url 'missions:creer_mission' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Créer Mission</a></li>
+            <li><a href="{% url 'missions:statistiques_participation' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Statistiques</a></li>
+            <li><a href="{% url 'missions:historique_participation' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Historique</a></li>
+            <li><a href="{% url 'missions:evaluer_mission' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Évaluation</a></li>
+            <li><a href="{% url 'missions:liste_missions_evaluations' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Liste Évaluations</a></li>
+            <li><a href="{% url 'missions:signaler_mission' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Signalement</a></li>
+            <li><a href="{% url 'missions:liste_signalements' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Liste Signalements</a></li>
+            <li><a href="{% url 'missions:voir_liste_attente' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Liste d'attente</a></li>
+            <li><a href="{% url 'deconnexion' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Déconnexion</a></li>
+            <li><a href="{% url 'connexion' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Connexion</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow container mx-auto px-4 py-8">
+    {% block content %}
+    <!-- Contenu spécifique à chaque page -->
+    {% endblock %}
+
+    {% if messages %}
+      <div class="mt-6 space-y-2">
+        {% for message in messages %}
+          <div class="rounded border px-4 py-3 
+            {% if message.tags == 'error' %}bg-red-100 border-red-400 text-red-700
+            {% elif message.tags == 'success' %}bg-green-100 border-green-400 text-green-700
+            {% else %}bg-blue-100 border-blue-400 text-blue-700{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white shadow-inner py-4 text-center text-gray-600 text-sm">
+    &copy; 2025 Plateforme de Bénévolat
+  </footer>
+
+  <!-- Script toggle menu -->
+  <script>
+    const menuButton = document.getElementById('menu-button');
+    const menu = document.getElementById('menu');
+
+    menuButton.addEventListener('click', () => {
+      const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!expanded));
+      menu.classList.toggle('hidden');
+    });
+
+    // Fermer le menu si clic en dehors
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !menuButton.contains(e.target)) {
+        menu.classList.add('hidden');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Fermer avec Échap
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        menu.classList.add('hidden');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.focus();
+      }
+    });
+  </script>
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

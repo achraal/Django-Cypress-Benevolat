@@ -1,0 +1,18 @@
+{% extends "baseM.html" %}
+{% block title %}Statistiques de participation - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<!-- Conteneur flex pour centrer verticalement et horizontalement -->
+<div class="flex items-center justify-center min-h-[70vh] px-4">
+  <div class="max-w-3xl bg-white rounded shadow-md p-8 text-center">
+    <h2 class="text-3xl font-semibold mb-6 text-gray-800">Statistiques de participation</h2>
+    <p class="text-lg mb-4">
+      <span class="font-semibold">Total des missions :</span> {{ total_missions }}
+    </p>
+    <p class="text-lg">
+      <span class="font-semibold">Total des bénévoles inscrits :</span> {{ total_benevoles }}
+    </p>
+  </div>
+</div>
+{% endblock %}
+

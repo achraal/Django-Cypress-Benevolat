@@ -1,0 +1,124 @@
+{% extends "baseM.html" %}
+{% load static %}
+{% load custom_tags %}
+{% block title %}Liste des missions - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+
+  <!-- Titre -->
+  <h2 class="text-3xl font-semibold text-gray-800">Liste des missions</h2>
+
+  <!-- Formulaire de filtrage -->
+  <form method="get" class="space-y-4 max-w-xl">
+    {% csrf_token %}
+    {% for field in form %}
+      <div>
+        {% label_tag field 'block mb-1 font-semibold text-gray-700' %}
+        {{ field|add_classes:"block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" }}
+        {% if field.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ field.errors }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+      Filtrer
+    </button>
+  </form>
+
+  <!-- Tableau des missions -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 rounded shadow-sm">
+      <thead class="bg-blue-600 text-white">
+        <tr>
+          <th class="py-2 px-4 text-left text-sm font-semibold">ID</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Titre</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Description</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Lieu</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Date</th>
+		  <th class="py-2 px-4 text-left text-sm font-semibold">Capacité</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Compétences requises</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Disponibilités requises</th>
+          <th class="py-2 px-4 text-center text-sm font-semibold">Urgente</th>
+          <th class="py-2 px-4 text-center text-sm font-semibold">Modifier</th>
+          <th class="py-2 px-4 text-center text-sm font-semibold">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mission in missions %}
+          <tr class="border-t border-gray-200 hover:bg-gray-50">
+            <td class="py-2 px-4 text-sm">{{ mission.id }}</td>
+            <td class="py-2 px-4 text-sm font-medium text-blue-600">{{ mission.titre }}</td>
+            <td class="py-2 px-4 text-sm">{{ mission.description|truncatechars:50 }}</td>
+            <td class="py-2 px-4 text-sm">{{ mission.lieu }}</td>
+            <td class="py-2 px-4 text-sm">{{ mission.date|date:"d/m/Y" }}</td>
+			<td class="py-2 px-4 text-sm">{{ mission.capacite_max }}</td>
+            <td class="py-2 px-4 text-sm">{{ mission.competences_requises }}</td>
+            <td class="py-2 px-4 text-sm">{{ mission.disponibilites_requises }}</td>
+            <td class="py-2 px-4 text-center text-sm">
+              {% if mission.urgent %}
+                <span class="text-red-600 font-semibold">Oui</span>
+              {% else %}
+                Non
+              {% endif %}
+            </td>
+            <td class="py-2 px-4 text-center text-sm">
+              <a href="{% url 'missions:modifier_mission' mission.id %}" class="text-blue-600 hover:underline">Modifier</a>
+            </td>
+            <td class="py-2 px-4 text-center text-sm">
+              <a href="{% url 'missions:supprimer_mission' mission.id %}" class="text-red-600 hover:underline">Supprimer</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="10" class="py-4 text-center text-gray-500 italic">Aucune mission trouvée.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Formulaire de recherche rapide -->
+  <form method="GET" action="{% url 'missions:rechercher_missions' %}" class="flex flex-wrap gap-4 max-w-xl">
+    <input type="text" name="q" placeholder="Rechercher une mission" 
+           class="flex-grow p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    <input type="text" name="lieu" placeholder="Lieu" 
+           class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    <input type="date" name="date" 
+           class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+      Rechercher
+    </button>
+  </form>
+
+  <!-- Liste simple des missions avec inscription -->
+  <ul class="list-disc list-inside space-y-3 mt-8 max-w-xl">
+    {% for mission in missions %}
+      <li class="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-white p-4 rounded shadow hover:shadow-md transition">
+        <div>
+          {% if mission.urgent %}
+            <strong class="text-red-600 mr-2">URGENT</strong>
+          {% endif %}
+          <strong class="text-lg text-gray-800">{{ mission.titre }}</strong> - 
+          <span class="text-gray-600">{{ mission.lieu }}</span> - 
+          <time class="text-gray-500">{{ mission.date|date:"d/m/Y" }}</time>
+        </div>
+        <div class="mt-2 sm:mt-0">
+          {% if mission.places_restantes > 0 %}
+            <a href="{% url 'missions:inscrire_mission' mission.id %}" 
+               class="text-white bg-green-600 hover:bg-green-700 px-4 py-1 rounded transition">
+              S'inscrire
+            </a>
+          {% else %}
+            <span class="text-seagreen mr-3 font-semibold">Mission complète</span>
+            <a href="{% url 'missions:liste_attente' mission.id %}" class="text-blue-600 hover:underline">
+              Liste d'attente
+            </a>
+          {% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+</div>
+{% endblock %}

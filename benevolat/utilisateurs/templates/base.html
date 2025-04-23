@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Plateforme de Bénévolat{% endblock %}</title>
+    {% load static %}
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+
+    <!-- HEADER + NAVBAR -->
+    <header class="bg-white shadow">
+        <nav class="container mx-auto px-4 py-4 flex flex-wrap items-center justify-between relative">
+            <!-- Lien Tableau de bord toujours visible -->
+            <a href="{% url 'tableau_de_bord' %}" class="text-xl font-bold text-blue-600 hover:text-blue-700">
+                Tableau de bord
+            </a>
+
+            {% if user.is_superuser %}
+                <!-- Bouton Menu pour admin -->
+                <div class="relative">
+                    <button id="admin-menu-button" aria-expanded="false" aria-haspopup="true" aria-controls="admin-menu"
+                            class="text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md px-3 py-2 font-semibold"
+                            aria-label="Ouvrir le menu administrateur">
+                        Menu Admin
+                        <svg class="inline-block w-5 h-5 ml-1" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Menu déroulant admin caché par défaut -->
+                    <div id="admin-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+                        <ul class="py-1 text-gray-700" role="menu" aria-orientation="vertical" aria-labelledby="admin-menu-button" tabindex="-1">
+                            <li><a href="{% url 'missions:organisations_valides' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Organisations Validées</a></li>
+                            <li><a href="{% url 'missions:moderer_associations' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Modération Associations</a></li>
+                            <li><a href="{% url 'missions:missions_valides' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Missions Validées</a></li>
+                            <li><a href="{% url 'missions:moderer_missions' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Modération Missions</a></li>
+                            <li><a href="{% url 'missions:liste_utilisateurs' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Utilisateurs</a></li>
+                            <li><a href="{% url 'missions:api_missions' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">API</a></li>
+                            <li><a href="{% url 'deconnexion' %}" class="block px-4 py-2 hover:bg-blue-100" role="menuitem" tabindex="-1">Déconnexion</a></li>
+                        </ul>
+                    </div>
+                </div>
+            {% else %}
+                <!-- Menu classique pour utilisateurs non-admin -->
+                <button id="nav-toggle" class="block lg:hidden text-gray-700 focus:outline-none" aria-label="Toggle navigation">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <div id="nav-menu" class="w-full lg:flex lg:items-center lg:w-auto hidden">
+                    <ul class="flex flex-col lg:flex-row lg:space-x-6 mt-4 lg:mt-0 text-gray-700">
+                        <li><a href="{% url 'voir_notifications' %}" class="hover:text-blue-600">Notifications</a></li>
+                        <li><a href="{% url 'boite_reception' %}" class="hover:text-blue-600">Boîte de réception</a></li>
+                        <li><a href="{% url 'envoyer_message' %}" class="hover:text-blue-600">Envoyer messages</a></li>
+                        <li><a href="{% url 'home' %}" class="hover:text-blue-600">Accueil</a></li>
+                        <li><a href="{% url 'missions:liste_missions' %}" class="hover:text-blue-600">Missions</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'deconnexion' %}" class="hover:text-blue-600">Déconnexion</a></li>
+                        {% else %}
+                            <li><a href="{% url 'connexion' %}" class="hover:text-blue-600">Connexion</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        {% block content %}
+        <!-- Contenu spécifique à chaque page -->
+        {% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white shadow-inner py-4 text-center text-gray-600 text-sm">
+        &copy; 2025 Plateforme de Bénévolat
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Toggle menu mobile pour utilisateurs non-admin
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        if(navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Toggle menu admin
+        const adminMenuButton = document.getElementById('admin-menu-button');
+        const adminMenu = document.getElementById('admin-menu');
+        if(adminMenuButton && adminMenu) {
+            adminMenuButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const expanded = adminMenuButton.getAttribute('aria-expanded') === 'true';
+                adminMenuButton.setAttribute('aria-expanded', String(!expanded));
+                adminMenu.classList.toggle('hidden');
+            });
+
+            // Fermer menu admin au clic en dehors
+            document.addEventListener('click', () => {
+                if (!adminMenu.classList.contains('hidden')) {
+                    adminMenu.classList.add('hidden');
+                    adminMenuButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Fermer menu admin à la touche Échap
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !adminMenu.classList.contains('hidden')) {
+                    adminMenu.classList.add('hidden');
+                    adminMenuButton.setAttribute('aria-expanded', 'false');
+                    adminMenuButton.focus();
+                }
+            });
+        }
+    </script>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
