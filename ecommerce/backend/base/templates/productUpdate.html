@@ -1,14 +1,80 @@
 {% extends 'base.html' %}
 
 {% block title %}Mise à jour produit{% endblock %}
-
+{% load custom_tag %}
 {% block content %}
-  <div class="container mt-4">
-    <h2>Modifier le produit</h2>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-success">Sauvegarder</button>
-    </form>
-  </div>
+<div class="container mx-auto px-4 mt-8 max-w-lg">
+    <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+        <div class="px-8 py-6 bg-gray-50 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center">Modifier le produit</h2>
+            <p class="mt-1 text-sm text-gray-500 text-center">Modifiez les champs puis cliquez sur "Sauvegarder".</p>
+        </div>
+        <form method="post" enctype="multipart/form-data" novalidate class="px-8 py-6">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.name.id_for_label }}">Nom du produit</label>
+                {{ form.name|addclass:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
+                {% if form.name.errors %}
+                    <p class="text-red-500 text-xs italic mt-1">{{ form.name.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.category.id_for_label }}">Catégorie</label>
+                {{ form.category|addclass:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
+                {% if form.category.errors %}
+                    <p class="text-red-500 text-xs italic mt-1">{{ form.category.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.price.id_for_label }}">Prix</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="text-gray-500 text-sm">€</span>
+                    </div>
+                    {{ form.price|addclass:"shadow appearance-none border rounded w-full py-2 pl-7 pr-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
+                </div>
+                {% if form.price.errors %}
+                    <p class="text-red-500 text-xs italic mt-1">{{ form.price.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.brand.id_for_label }}">Marque</label>
+                {{ form.brand|addclass:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
+                {% if form.brand.errors %}
+                    <p class="text-red-500 text-xs italic mt-1">{{ form.brand.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.image.id_for_label }}">Image du produit</label>
+                {{ form.image|addclass:"shadow appearance-none border rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
+                {% if form.image.errors %}
+                    <p class="text-red-500 text-xs italic mt-1">{{ form.image.errors.0 }}</p>
+                {% endif %}
+                <p class="text-gray-600 text-xs italic mt-1">Formats acceptés: JPG, PNG, GIF.</p>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ form.user.id_for_label }}">Utilisateur</label>
+                {{ form.user|addclass:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" }}
+                {% if form.user.errors %}
+                    <p class="text-red-500 text-xs italic mt-1">{{ form.user.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Sauvegarder
+                </button>
+                <a href="{% url 'product' %}" class="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">
+                    Retour à la liste
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
