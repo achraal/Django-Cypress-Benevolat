@@ -4,62 +4,37 @@
 {% block title %}Nouveau Produit{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 mt-8 max-w-lg bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Ajouter un nouveau produit</h2>
-    <form method="post" enctype="multipart/form-data" novalidate>
-        {% csrf_token %}
-
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-1" for="{{ form.name.id_for_label }}">Nom</label>
-            {{ form.name|addclass:"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" }}
-            {% if form.name.errors %}
-                <p class="text-red-600 text-sm mt-1">{{ form.name.errors.0 }}</p>
-            {% endif %}
+<div class="container mx-auto px-4 mt-8 max-w-lg">
+    <div class="card shadow-lg rounded-3xl overflow-hidden">
+        <div class="card-header bg-light text-center py-4">
+            <h2 class="h4 fw-semibold mb-1">Ajouter un nouveau produit</h2>
+            <p class="text-muted small mb-0">Remplissez le formulaire ci-dessous pour ajouter un produit à la vente.</p>
         </div>
+        <form method="post" enctype="multipart/form-data" novalidate class="card-body px-5 py-4">
+            {% csrf_token %}
 
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-1" for="{{ form.category.id_for_label }}">Catégorie</label>
-            {{ form.category|addclass:"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" }}
-            {% if form.category.errors %}
-                <p class="text-red-600 text-sm mt-1">{{ form.category.errors.0 }}</p>
-            {% endif %}
-        </div>
+            {% for field in form %}
+                <div class="mb-4">
+                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                    {{ field|addclass:"form-control" }}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                        <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
 
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-1" for="{{ form.price.id_for_label }}">Prix</label>
-            {{ form.price|addclass:"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" }}
-            {% if form.price.errors %}
-                <p class="text-red-600 text-sm mt-1">{{ form.price.errors.0 }}</p>
-            {% endif %}
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-1" for="{{ form.brand.id_for_label }}">Marque</label>
-            {{ form.brand|addclass:"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" }}
-            {% if form.brand.errors %}
-                <p class="text-red-600 text-sm mt-1">{{ form.brand.errors.0 }}</p>
-            {% endif %}
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-1" for="{{ form.image.id_for_label }}">Image</label>
-            {{ form.image|addclass:"w-full" }}
-            {% if form.image.errors %}
-                <p class="text-red-600 text-sm mt-1">{{ form.image.errors.0 }}</p>
-            {% endif %}
-        </div>
-
-        <div class="mb-6">
-            <label class="block text-gray-700 font-medium mb-1" for="{{ form.user.id_for_label }}">Utilisateur</label>
-            {{ form.user|addclass:"w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" }}
-            {% if form.user.errors %}
-                <p class="text-red-600 text-sm mt-1">{{ form.user.errors.0 }}</p>
-            {% endif %}
-        </div>
-
-        <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-md font-semibold hover:bg-indigo-700 transition-colors">
-            Sauvegarder
-        </button>
-    </form>
+            <div class="d-flex justify-content-between align-items-center mt-5">
+                <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm">
+                    Ajouter le produit
+                </button>
+                <a href="{% url 'product' %}" class="text-primary fw-semibold text-decoration-none">
+                    &larr; Retour à la liste
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
