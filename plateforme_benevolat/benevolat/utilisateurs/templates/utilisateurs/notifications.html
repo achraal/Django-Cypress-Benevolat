@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 py-8">
+  <h2 class="text-3xl font-semibold mb-6 text-gray-800">Notifications</h2>
+
+  <form method="post" action="{% url 'marquer_notifications_lues' %}" class="space-y-4">
+    {% csrf_token %}
+    {% if notifications %}
+      <ul class="space-y-3">
+        {% for notification in notifications %}
+          <li class="flex items-start space-x-3 p-4 bg-white rounded shadow hover:shadow-md transition">
+            {% if not notification.lu %}
+              <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="checkbox" name="notifs" value="{{ notification.id }}" class="form-checkbox h-5 w-5 text-blue-600">
+                <span class="text-sm font-semibold text-blue-600">[Nouveau]</span>
+              </label>
+            {% else %}
+              <div class="w-20"></div> <!-- espace pour aligner le texte -->
+            {% endif %}
+            <div class="flex-1">
+              <p class="text-gray-700">{{ notification.message }}</p>
+              <time class="block text-xs text-gray-400 mt-1">{{ notification.date|date:"d/m/Y H:i" }}</time>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+      <div>
+        <button type="submit" class="mt-4 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+          Marquer comme lues
+        </button>
+      </div>
+    {% else %}
+      <p class="text-gray-600 italic">Aucune notification</p>
+    {% endif %}
+  </form>
+</div>
+{% endblock %}

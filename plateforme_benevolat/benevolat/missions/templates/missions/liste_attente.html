@@ -1,0 +1,15 @@
+{% extends "baseM.html" %}
+
+{% block content %}
+    <h2>Liste d'attente pour la mission "{{ mission.titre }}"</h2>
+    
+    {% if liste_attente %}
+        <ul>
+            {% for inscription in liste_attente %}
+                <li>{{ inscription.benevole.user.username }} - Inscrit le {{ inscription.date_inscription }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun bénévole n'est actuellement inscrit dans la liste d'attente pour cette mission.</p>
+    {% endif %}
+{% endblock %}

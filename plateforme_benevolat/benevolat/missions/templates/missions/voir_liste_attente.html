@@ -1,0 +1,34 @@
+{% extends "baseM.html" %}
+
+{% block title %}Liste d'attente des bénévoles - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <h2 class="text-3xl font-semibold mb-6 text-gray-800">Liste d'attente des bénévoles</h2>
+
+  {% if liste_attente %}
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-200 rounded shadow-sm">
+        <thead class="bg-blue-600 text-white">
+          <tr>
+            <th class="py-2 px-4 text-left text-sm font-semibold">Mission</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold">Nom du Bénévole</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold">Date d'Inscription</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for inscription in liste_attente %}
+            <tr class="border-t border-gray-200 hover:bg-gray-50">
+              <td class="py-2 px-4 text-sm">{{ inscription.mission.titre }}</td>
+              <td class="py-2 px-4 text-sm">{{ inscription.benevole.username }}</td>
+              <td class="py-2 px-4 text-sm">{{ inscription.date_inscription|date:"d/m/Y" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-gray-600 italic">Aucune inscription dans la liste d'attente pour le moment.</p>
+  {% endif %}
+</div>
+{% endblock %}

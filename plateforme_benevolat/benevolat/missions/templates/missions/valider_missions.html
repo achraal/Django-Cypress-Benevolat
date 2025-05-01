@@ -1,0 +1,25 @@
+{% extends 'baseM.html' %}
+
+{% block content %}
+  <h2>Validation des Missions</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Valider</button>
+  </form>
+
+  <h3>Liste des missions en attente de validation :</h3>
+  <ul>
+    {% for mission in missions %}
+      <li>
+        {{ mission.titre }} - 
+        {% if mission.is_valid %}
+          <span style="color: green;">Validée</span>
+        {% else %}
+          <span style="color: red;">Non validée</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Accueil - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<style>
+  .hero {
+    margin-top: 80px;
+    padding: 60px 30px;
+    background: linear-gradient(to right, #e0ecff, #f0f4ff);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    text-align: center;
+  }
+
+  .hero h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+  }
+
+  .hero p {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.25rem;
+    color: #333a56;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    transition: color 0.3s ease;
+  }
+
+  .hero p:hover {
+    color: #1a1a1a;
+    cursor: default;
+  }
+
+  .hero .btn {
+    padding: 10px 25px;
+    font-size: 1rem;
+    margin: 5px;
+    border-radius: 8px;
+  }
+</style>
+
+<div class="container">
+  <div class="hero">
+    <h2>Bienvenue sur la plateforme de bénévolat</h2>
+
+    {% if user.is_authenticated %}
+      <p>Bonjour <strong>{{ user.username }}</strong> !</p>
+
+      {% if user.type_utilisateur == 'benevole' %}
+        <p>Vous êtes connecté en tant que <strong>Bénévole</strong>.</p>
+      {% elif user.type_utilisateur == 'association' %}
+        <p>Vous êtes connecté en tant que <strong>Association</strong>.</p>
+      {% elif user.is_superuser %}
+        <p>Vous êtes connecté en tant que <strong>Administrateur</strong>.</p>
+      {% else %}
+        <p>Type d'utilisateur inconnu.</p>
+      {% endif %}
+
+      <a href="{% url 'voir_notifications' %}" class="btn btn-primary">Accéder à vos notifications</a>
+      <a href="{% url 'deconnexion' %}" class="btn btn-outline-secondary">Déconnexion</a>
+    {% else %}
+      <p>Rejoignez des centaines d’associations et de bénévoles engagés.</p>
+      <a href="{% url 'connexion' %}" class="btn btn-primary">Connexion</a>
+      <a href="{% url 'inscription' %}" class="btn btn-outline-primary">Créer un compte</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

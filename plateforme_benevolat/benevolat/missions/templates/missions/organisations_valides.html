@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des Organisations Validées - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-semibold mb-6 text-gray-800">Liste des Organisations Validées</h1>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 rounded shadow-sm">
+      <thead class="bg-green-600 text-white">
+        <tr>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Nom de l'Association</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Email</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Date de Validation</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for association in associations_valides %}
+          <tr class="border-t border-gray-200 hover:bg-gray-50">
+            <td class="py-2 px-4 text-sm font-medium text-green-700">{{ association.username }}</td>
+            <td class="py-2 px-4 text-sm">{{ association.email }}</td>
+            <td class="py-2 px-4 text-sm">{{ association.date_joined|date:"d/m/Y" }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3" class="py-4 text-center text-gray-500 italic">Aucune organisation validée pour le moment.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

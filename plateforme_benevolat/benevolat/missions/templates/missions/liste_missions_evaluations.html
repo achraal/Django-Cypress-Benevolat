@@ -1,0 +1,56 @@
+{% extends 'baseM.html' %}
+
+{% block title %}Missions et évaluations - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-semibold mb-6 text-gray-800">Toutes les missions et leurs évaluations</h1>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 rounded shadow-sm">
+      <thead class="bg-blue-700 text-white">
+        <tr>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Titre de la mission</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Description</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Lieu</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Capacité maximale</th>
+          <th class="py-2 px-4 text-left text-sm font-semibold">Évaluations</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mission_data in mission_evaluations %}
+          <tr class="border-t border-gray-200 hover:bg-gray-50 align-top">
+            <td class="py-3 px-4 text-sm font-medium text-blue-600">{{ mission_data.mission.titre }}</td>
+            <td class="py-3 px-4 text-sm">{{ mission_data.mission.description|truncatechars:80 }}</td>
+            <td class="py-3 px-4 text-sm">{{ mission_data.mission.lieu }}</td>
+            <td class="py-3 px-4 text-sm">{{ mission_data.mission.capacite_max }}</td>
+            <td class="py-3 px-4 text-sm">
+              {% if mission_data.evaluations %}
+                <ul class="list-disc list-inside space-y-2 max-w-md">
+                  {% for evaluation in mission_data.evaluations %}
+                    <li class="border p-2 rounded bg-gray-50">
+                      <p><strong>{{ evaluation.benevole.username }}</strong> — Note : <span class="font-semibold">{{ evaluation.note }}/5</span></p>
+                      <p class="text-gray-700">{{ evaluation.commentaire }}</p>
+                      <p class="text-xs text-gray-400 mt-1">Date : {{ evaluation.date|date:"d/m/Y" }}</p>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="italic text-gray-500">Aucune évaluation</p>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5" class="py-4 text-center text-gray-500 italic">Aucune mission trouvée.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-6">
+    <a href="{% url 'missions:liste_missions' %}" class="text-blue-600 hover:underline">Retour à la liste des missions</a>
+  </div>
+</div>
+{% endblock %}
