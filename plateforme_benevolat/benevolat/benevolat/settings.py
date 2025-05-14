@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'utilisateurs.middleware.LoginRequiredMessageMiddleware',  # Middleware pour les messages de connexion
 ]
 
 ROOT_URLCONF = 'benevolat.urls'
@@ -99,6 +100,10 @@ AUTH_USER_MODEL = 'utilisateurs.Utilisateur'
 
 LOGOUT_REDIRECT_URL = 'home'  
 LOGIN_REDIRECT_URL = 'home'  
+
+from django.urls import reverse_lazy
+LOGIN_URL = reverse_lazy('connexion')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
