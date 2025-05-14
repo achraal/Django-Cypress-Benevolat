@@ -79,16 +79,10 @@
                 </div>
             {% endif %}
         </nav>
+
     </header>
 
-    <!-- MAIN CONTENT -->
-     
-    <main class="flex-grow container mx-auto px-4 py-8">
-        {% block content %}
-        <!-- Contenu spécifique à chaque page -->
-        {% endblock %}
-    
-        {% if messages %}
+                    {% if messages %}
           <div class="mt-6 space-y-2">
             {% for message in messages %}
               <div class="rounded border px-4 py-3 
@@ -100,6 +94,14 @@
             {% endfor %}
           </div>
         {% endif %}
+    <!-- MAIN CONTENT -->
+     
+    <main class="flex-grow container mx-auto px-4 py-8">
+        {% block content %}
+        <!-- Contenu spécifique à chaque page -->
+        {% endblock %}
+    
+
       </main>
 
     <!-- FOOTER -->
