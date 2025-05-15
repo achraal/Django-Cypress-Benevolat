@@ -1,4 +1,5 @@
 {% extends "baseM.html" %}
+{% comment %} 
 {% block title %}Statistiques de participation - Plateforme de Bénévolat{% endblock %}
 
 {% block content %}
@@ -14,5 +15,93 @@
     </p>
   </div>
 </div>
+{% endblock %}
+ {% endcomment %}
+ 
+{% block title %}Statistiques de participation - Plateforme de Bénévolat{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-[70vh] px-6 py-10 space-y-10 bg-gray-50">
+  <div class="max-w-5xl w-full bg-white rounded-lg shadow-lg p-10 text-center">
+    <h2 class="text-4xl font-extrabold mb-8 text-gray-900">Statistiques de participation</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12 text-lg text-gray-700">
+      <p><span class="font-semibold text-indigo-600">Total des missions :</span> {{ total_missions }}</p>
+      <p><span class="font-semibold text-indigo-600">Total des bénévoles inscrits :</span> {{ total_benevoles }}</p>
+      <p><span class="font-semibold text-indigo-600">Missions urgentes :</span> {{ missions_urgentes }}</p>
+      <p><span class="font-semibold text-indigo-600">Capacité totale d’accueil :</span> {{ capacite_totale }}</p>
+      <p class="sm:col-span-2"><span class="font-semibold text-indigo-600">Taux de remplissage moyen :</span> {{ taux_remplissage_moyen }}%</p>
+    </div>
+    <div class="space-y-12">
+      <div class="w-full h-96 rounded-lg shadow-md p-4 bg-white">
+        <canvas id="missionsChart" class="w-full h-full"></canvas>
+      </div>
+      <div class="w-full h-80 rounded-lg shadow-md p-4 bg-white">
+        <canvas id="categorieChart" class="w-full h-full"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Graphique 1 : bénévoles par mission
+  const ctx1 = document.getElementById('missionsChart').getContext('2d');
+  new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: {{ noms_missions|safe }},
+      datasets: [{
+        label: 'Nombre de bénévoles inscrits',
+        data: {{ inscrits|safe }},
+        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+        borderColor: 'rgba(59, 130, 246, 1)',
+        borderWidth: 2,
+        borderRadius: 8,
+        maxBarThickness: 60,
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        legend: { display: true, position: 'top' },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Missions' },
+          ticks: { autoSkip: false, maxRotation: 30, minRotation: 15 }
+        },
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Bénévoles inscrits' }
+        }
+      }
+    }
+  });
+
+  // Graphique 2 : missions par catégorie
+  const ctx2 = document.getElementById('categorieChart').getContext('2d');
+  new Chart(ctx2, {
+    type: 'pie',
+    data: {
+      labels: {{ labels_categories|safe }},
+      datasets: [{
+        data: {{ data_categories|safe }},
+        backgroundColor: [
+          '#3B82F6', '#F59E42', '#10B981', '#F472B6', '#6366F1', '#FBBF24', '#EF4444'
+        ],
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' }
+      }
+    }
+  });
+</script>
 {% endblock %}
 

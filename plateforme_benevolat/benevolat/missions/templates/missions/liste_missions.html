@@ -32,7 +32,7 @@
     <table class="min-w-full bg-white border border-gray-200 rounded shadow-sm">
       <thead class="bg-blue-600 text-white">
         <tr>
-          <th class="py-2 px-4 text-left text-sm font-semibold">ID</th>
+          {% comment %} <th class="py-2 px-4 text-left text-sm font-semibold">ID</th> {% endcomment %}
           <th class="py-2 px-4 text-left text-sm font-semibold">Titre</th>
           <th class="py-2 px-4 text-left text-sm font-semibold">Description</th>
           <th class="py-2 px-4 text-left text-sm font-semibold">Lieu</th>
@@ -41,14 +41,16 @@
           <th class="py-2 px-4 text-left text-sm font-semibold">Compétences requises</th>
           <th class="py-2 px-4 text-left text-sm font-semibold">Disponibilités requises</th>
           <th class="py-2 px-4 text-center text-sm font-semibold">Urgente</th>
+          {% if request.user.type_utilisateur == 'association' %}
           <th class="py-2 px-4 text-center text-sm font-semibold">Modifier</th>
           <th class="py-2 px-4 text-center text-sm font-semibold">Supprimer</th>
+          {% endif %}
         </tr>
       </thead>
       <tbody>
         {% for mission in missions %}
           <tr class="border-t border-gray-200 hover:bg-gray-50">
-            <td class="py-2 px-4 text-sm">{{ mission.id }}</td>
+            {% comment %} <td class="py-2 px-4 text-sm">{{ mission.id }}</td> {% endcomment %}
             <td class="py-2 px-4 text-sm font-medium text-blue-600">{{ mission.titre }}</td>
             <td class="py-2 px-4 text-sm">{{ mission.description|truncatechars:50 }}</td>
             <td class="py-2 px-4 text-sm">{{ mission.lieu }}</td>
@@ -63,12 +65,14 @@
                 Non
               {% endif %}
             </td>
+            {% if request.user.type_utilisateur == 'association' %}
             <td class="py-2 px-4 text-center text-sm">
               <a href="{% url 'missions:modifier_mission' mission.id %}" class="text-blue-600 hover:underline">Modifier</a>
             </td>
             <td class="py-2 px-4 text-center text-sm">
               <a href="{% url 'missions:supprimer_mission' mission.id %}" class="text-red-600 hover:underline">Supprimer</a>
             </td>
+            {% endif %}
           </tr>
         {% empty %}
           <tr>
