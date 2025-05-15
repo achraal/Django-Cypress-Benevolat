@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Mission, ListeAttente, Evaluation, Signalement, HistoriqueParticipation, Utilisateur, Association
+from .models import Mission, ListeAttente, Evaluation, Signalement, HistoriqueParticipation, Utilisateur
 from .forms import MissionForm, ValidationMissionForm
 from utilisateurs.models import Notification
 from .forms import FiltrageMissionForm, EvaluationForm, SignalementForm, ValidationAssociationForm, UtilisateurModificationForm
@@ -9,50 +9,8 @@ from utilisateurs.utils import envoyer_notification
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import MissionSerializer
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Avg, F, FloatField, ExpressionWrapper
 
-
-# @login_required
-# def inscrire_mission(request, mission_id):
-#     mission = get_object_or_404(Mission, id=mission_id)
-
-#     if mission.benevoles.count() >= mission.capacite:  # Assurez-vous d'ajouter un champ `capacite` à Mission
-#         # Si la mission est complète, inscrire l'utilisateur sur la liste d'attente
-#         benevole = request.user.benevole
-#         ListeAttente.objects.create(mission=mission, benevole=benevole)
-#         message = "Vous êtes inscrit sur la liste d'attente pour cette mission."
-#     else:
-#         # Sinon, inscrire directement
-#         mission.benevoles.add(request.user.benevole)
-#         message = "Vous êtes inscrit à cette mission."        
-#     if request.user.type_utilisateur != 'benevole':
-#         messages.error(request, "Seuls les bénévoles peuvent s'inscrire.")
-#         return redirect('liste_missions')
-
-#     if mission.places_restantes() > 0:
-#         mission.inscrits.add(request.user)
-#         messages.success(request, "Inscription réussie !")
-#     else:
-#         messages.error(request, "Cette mission est complète.")
-
-    # return redirect('liste_missions')
-    
-# @login_required
-# def inscrire_mission(request, mission_id):
-#     mission = get_object_or_404(Mission, id=mission_id)
-
-#     if request.user.type_utilisateur != 'benevole':
-#         messages.error(request, "Seuls les bénévoles peuvent s'inscrire.")
-#         return redirect('missions:liste_missions')
-
-#     if mission.places_restantes() > 0:
-#         mission.inscrits.add(request.user)
-#         envoyer_notification(mission.association, f"{request.user.username} s'est inscrit à votre mission {mission.titre}.")
-#         messages.success(request, "Inscription réussie !")
-#     else:
-#         messages.error(request, "Cette mission est complète.")
-
-#     return redirect('missions:liste_missions')
 
 @login_required
 def inscrire_mission(request, mission_id):
@@ -90,31 +48,6 @@ def inscrire_mission(request, mission_id):
 
     return redirect('missions:liste_missions')
 
-
-# @login_required
-# def inscrire_mission(request, mission_id):
-#     mission = get_object_or_404(Mission, id=mission_id)
-
-#     # Vérifier si l'utilisateur est bien un bénévole
-#     if request.user.type_utilisateur != 'benevole':
-#         messages.error(request, "Seuls les bénévoles peuvent s'inscrire.")
-#         return redirect('missions:liste_missions')
-    
-#     if mission.inscrits.count() < mission.capacite_max:
-#         # Si la mission n'est pas complète, on inscrit l'utilisateur à la mission
-#         mission.inscrits.add(request.user)
-#         messages.success(request, f"Vous êtes inscrit à la mission '{mission.titre}'.")
-#         HistoriqueParticipation.objects.create(utilisateur=request.user, mission=mission)
-
-#     else:
-#         # Si la mission est complète, on ajoute l'utilisateur à la liste d'attente
-#         if not ListeAttente.objects.filter(mission=mission, benevole=request.user).exists():
-#             ListeAttente.objects.create(mission=mission, benevole=request.user)
-#             messages.info(request, f"Mission complète. Vous avez été ajouté à la liste d'attente pour la mission '{mission.titre}'.")
-#         else:
-#             messages.warning(request, f"Vous êtes déjà inscrit dans la liste d'attente pour la mission '{mission.titre}'.")
-
-#     return redirect('missions:liste_missions')
 
 @login_required
 def inscrire_liste_attente(request, mission_id):
@@ -355,15 +288,81 @@ def api_missions(request):
     serializer = MissionSerializer(missions, many=True)
     return Response(serializer.data)
 
+# @login_required
+# def statistiques_participation(request):
+#     total_missions = Mission.objects.count()
+#     total_benevoles = Mission.objects.aggregate(total=Sum('inscrits'))['total'] or 0
+
+#     return render(request, 'missions/statistiques.html', {
+#         'total_missions': total_missions,
+#         'total_benevoles': total_benevoles
+#     })
+
+
+
+
+
 @login_required
 def statistiques_participation(request):
     total_missions = Mission.objects.count()
     total_benevoles = Mission.objects.aggregate(total=Sum('inscrits'))['total'] or 0
 
+    # Nombre de missions urgentes
+    missions_urgentes = Mission.objects.filter(urgent=True).count()
+
+    # Capacité totale d’accueil
+    capacite_totale = Mission.objects.aggregate(total=Sum('capacite_max'))['total'] or 0
+
+    # Taux de remplissage moyen
+    missions = Mission.objects.annotate(
+        taux_remplissage=ExpressionWrapper(
+            F('inscrits') * 100.0 / F('capacite_max'),
+            output_field=FloatField()
+        )
+    )
+    taux_remplissage_moyen = missions.aggregate(moyenne=Avg('taux_remplissage'))['moyenne'] or 0
+
+    # Pour le graphique 1 : bénévoles par mission
+    missions_qs = Mission.objects.values('id', 'inscrits')
+    noms_missions = [m['id'] for m in missions_qs]
+    inscrits = [m['inscrits'] for m in missions_qs]
+
+    # Pour le graphique 2 : missions par catégorie
+    missions_par_categorie = Mission.objects.values('categorie').annotate(total=Count('id'))
+    labels_categories = [m['categorie'] for m in missions_par_categorie]
+    data_categories = [m['total'] for m in missions_par_categorie]
+
     return render(request, 'missions/statistiques.html', {
         'total_missions': total_missions,
-        'total_benevoles': total_benevoles
+        'total_benevoles': total_benevoles,
+        'missions_urgentes': missions_urgentes,
+        'capacite_totale': capacite_totale,
+        'taux_remplissage_moyen': round(taux_remplissage_moyen, 2),
+        'noms_missions': noms_missions,
+        'inscrits': inscrits,
+        'labels_categories': labels_categories,
+        'data_categories': data_categories,
     })
+
+
+# @login_required
+# def statistiques_participation(request):
+#     total_missions = Mission.objects.count()
+#     total_benevoles = Mission.objects.aggregate(total=Sum('inscrits'))['total'] or 0
+
+#     missions = Mission.objects.values('titre', 'inscrits')
+
+#     noms_missions = [m['titre'] for m in missions]
+#     inscrits = [m['inscrits'] for m in missions]
+
+#     return render(request, 'missions/statistiques.html', {
+#         'total_missions': total_missions,
+#         'total_benevoles': total_benevoles,
+#         'noms_missions': noms_missions,
+#         'inscrits': inscrits,
+#     })
+
+
 
 # @login_required
 # def signaler(request):
@@ -442,20 +441,6 @@ def signaler_mission(request):
     return render(request, 'missions/signaler_mission.html', {'form': form})
 
 
-# @login_required
-# def signaler_mission(request):
-#     if request.method == 'POST':
-#         form = SignalementForm(request.POST)
-#         if form.is_valid():
-#             signalement = form.save(commit=False)  # Crée l'objet Signalement sans le sauvegarder
-#             signalement.utilisateur = request.user  # Associe l'utilisateur connecté
-#             signalement.save()  # Sauvegarde l'objet Signalement dans la base de données
-#             return redirect('missions:liste_missions')  # Redirige vers la liste des missions après soumission
-#     else:
-#         form = SignalementForm()
-    
-#     return render(request, 'missions/signaler_mission.html', {'form': form})
-
 @login_required
 def liste_signalements(request):
     if request.user.type_utilisateur != 'association':
@@ -494,19 +479,6 @@ def historique_participation(request):
 #     return redirect('moderer_associations')
 
 
-# @user_passes_test(lambda u: u.is_superuser)  # Vérifie que seul un admin peut accéder à cette vue
-# def valider_association(request, association_id):
-#     association = get_object_or_404(Association, id=association_id)
-
-#     if request.method == 'POST':
-#         form = ValidationAssociationForm(request.POST, instance=association)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('moderer_associations')  # Redirige vers la page de gestion des associations
-#     else:
-#         form = ValidationAssociationForm(instance=association)
-
-#     return render(request, 'missions/valider_association.html', {'form': form, 'association': association})
 
 
 # @user_passes_test(lambda u: u.is_superuser)  # Assurer que seul un admin peut accéder à cette page
@@ -551,23 +523,6 @@ def organisations_valides(request):
     associations_valides = Utilisateur.objects.filter(type_utilisateur='association', is_valid=True)
     
     return render(request, 'missions/organisations_valides.html', {'associations_valides': associations_valides})
-
-# @user_passes_test(lambda u: u.is_superuser)  # Assurer que seul un admin peut accéder à cette page
-# def valider_organisations(request):
-#     organisations = Utilisateur.objects.filter(user_type='association', is_valid=False)
-#     return render(request, 'missions/valider_organisations.html', {'organisations': organisations})
-
-# @user_passes_test(lambda u: u.is_superuser)
-# def valider_organisation(request, user_id):
-#     organisation = get_object_or_404(Utilisateur, id=user_id, user_type='association')
-#     if request.method == 'POST':
-#         form = ValidationOrganisationForm(request.POST, instance=organisation)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('valider_organisations')
-#     else:
-#         form = ValidationOrganisationForm(instance=organisation)
-#     return render(request, 'missions/valider_organisation.html', {'form': form, 'organisation': organisation})
 
 @user_passes_test(lambda u: u.is_superuser)
 def moderer_associations(request):
