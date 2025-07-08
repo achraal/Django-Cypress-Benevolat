@@ -1,0 +1,745 @@
+{
+  "stats": {
+    "suites": 12,
+    "tests": 12,
+    "passes": 12,
+    "pending": 0,
+    "failures": 0,
+    "testsRegistered": 12,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2025-07-07T14:56:15.937Z",
+    "end": "2025-07-08T08:26:31.836Z",
+    "duration": 63015899
+  },
+  "results": [
+    {
+      "uuid": "39c9c498-5621-41c9-bfca-100bbc7a2516",
+      "title": "",
+      "fullFile": "cypress\\e2e\\missions.cy.js",
+      "file": "cypress\\e2e\\missions.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "2ece6317-6db5-4df6-8865-ca9ab1a76f6b",
+          "title": "Test des Missions",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Ensemble de tests pour la partie missions du projet",
+              "fullTitle": "Test des Missions Ensemble de tests pour la partie missions du projet",
+              "timedOut": null,
+              "duration": 25320,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/');\ncy.get('nav').contains('Notifications').click({\n  force: true\n});\ncy.contains('Connexion').click({\n  force: true\n}); //force le clic même si l’élément est invisible ou recouvert (utile si, par exemple, le bouton est caché dans un menu déroulant non ouvert).\ncy.get('input[name=\"username\"]').type('Croix_rouge');\ncy.get('input[name=\"password\"]').type('croixcroix');\ncy.get('button[type=\"submit\"]').click();\ncy.contains('Bienvenue').should('be.visible');\ncy.get('nav').contains('Missions').click({\n  force: true\n});\ncy.contains('Liste').should('be.visible');\ncy.get('input[name=\"urgent\"]').check();\ncy.contains('Filtrer').click({\n  force: true\n});\ncy.contains('tr', 'Distribution de colis').contains('Modifier').click();\ncy.contains('Modifier la Mission').should('be.visible');\ncy.contains('Retour').click();\ncy.get('nav').contains('Statistiques').click({\n  force: true\n});\ncy.get('h2').contains('Statistiques').should('be.visible');",
+              "err": {},
+              "uuid": "7c03293b-e0c8-4743-b1d8-1692b1c064d3",
+              "parentUUID": "2ece6317-6db5-4df6-8865-ca9ab1a76f6b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7c03293b-e0c8-4743-b1d8-1692b1c064d3"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 25320,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "021f1b89-fd66-4bf3-94b3-c3d9933b29ee",
+      "title": "",
+      "fullFile": "cypress\\e2e\\sign_in.cy.js",
+      "file": "cypress\\e2e\\sign_in.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b2d5dddd-03cc-4721-9f55-3cf16ad781cf",
+          "title": "Test d'inscription à la plateforme",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "passes",
+              "fullTitle": "Test d'inscription à la plateforme passes",
+              "timedOut": null,
+              "duration": 13846,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/inscription/');\n//cy.visit('');\n//cy.contains('inscription').click({ force: true });\ncy.get('input[name=\"username\"]').type('test');\ncy.get('input[name=\"email\"]').type('test@example.com');\ncy.get('input[name=\"type_utilisateur\"]').check('association');\ncy.get('input[name=\"password1\"]').type('sofacsofac');\ncy.get('input[name=\"password2\"]').type('sofacsofac');\ncy.get('button[type=\"submit\"]').click();",
+              "err": {},
+              "uuid": "b9ac1b7d-918d-4144-81dc-9cd98f25c313",
+              "parentUUID": "b2d5dddd-03cc-4721-9f55-3cf16ad781cf",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b9ac1b7d-918d-4144-81dc-9cd98f25c313"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 13846,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "7946e491-9d0e-4fe1-9828-e72f0dce3ec3",
+      "title": "",
+      "fullFile": "cypress\\e2e\\spec.cy.js",
+      "file": "cypress\\e2e\\spec.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ce0eed65-af39-4bac-8383-961dc2e19680",
+          "title": "Premier Test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "devra seulement tester ce code et accéder au lien",
+              "fullTitle": "Premier Test devra seulement tester ce code et accéder au lien",
+              "timedOut": null,
+              "duration": 2241,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/');",
+              "err": {},
+              "uuid": "cd7c0324-fabe-47ad-abb7-989873548c0b",
+              "parentUUID": "ce0eed65-af39-4bac-8383-961dc2e19680",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "cd7c0324-fabe-47ad-abb7-989873548c0b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2241,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "43a6867c-2004-4970-919c-93f0f95f0297",
+      "title": "",
+      "fullFile": "cypress\\e2e\\login.cy.js",
+      "file": "cypress\\e2e\\login.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1357f5d4-405c-4fe0-94e1-aca4651f4618",
+          "title": "Test de Connexion à la plateforme",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "passes",
+              "fullTitle": "Test de Connexion à la plateforme passes",
+              "timedOut": null,
+              "duration": 20947,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/');\ncy.contains('Connexion').click({\n  force: true\n}); //force le clic même si l’élément est invisible ou recouvert (utile si, par exemple, le bouton est caché dans un menu déroulant non ouvert).\ncy.get('input[name=\"username\"]').type('Croix_rouge');\ncy.get('input[name=\"password\"]').type('croixcroix');\ncy.get('button[type=\"submit\"]').click();\ncy.contains('Bienvenue').should('be.visible');",
+              "err": {},
+              "uuid": "58f7279f-777e-4bfb-b652-372766570d2d",
+              "parentUUID": "1357f5d4-405c-4fe0-94e1-aca4651f4618",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "58f7279f-777e-4bfb-b652-372766570d2d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 20947,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "39c9c498-5621-41c9-bfca-100bbc7a2516",
+      "title": "",
+      "fullFile": "cypress\\e2e\\missions.cy.js",
+      "file": "cypress\\e2e\\missions.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "2ece6317-6db5-4df6-8865-ca9ab1a76f6b",
+          "title": "Test des Missions",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Ensemble de tests pour la partie missions du projet",
+              "fullTitle": "Test des Missions Ensemble de tests pour la partie missions du projet",
+              "timedOut": null,
+              "duration": 25320,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/');\ncy.get('nav').contains('Notifications').click({\n  force: true\n});\ncy.contains('Connexion').click({\n  force: true\n}); //force le clic même si l’élément est invisible ou recouvert (utile si, par exemple, le bouton est caché dans un menu déroulant non ouvert).\ncy.get('input[name=\"username\"]').type('Croix_rouge');\ncy.get('input[name=\"password\"]').type('croixcroix');\ncy.get('button[type=\"submit\"]').click();\ncy.contains('Bienvenue').should('be.visible');\ncy.get('nav').contains('Missions').click({\n  force: true\n});\ncy.contains('Liste').should('be.visible');\ncy.get('input[name=\"urgent\"]').check();\ncy.contains('Filtrer').click({\n  force: true\n});\ncy.contains('tr', 'Distribution de colis').contains('Modifier').click();\ncy.contains('Modifier la Mission').should('be.visible');\ncy.contains('Retour').click();\ncy.get('nav').contains('Statistiques').click({\n  force: true\n});\ncy.get('h2').contains('Statistiques').should('be.visible');",
+              "err": {},
+              "uuid": "7c03293b-e0c8-4743-b1d8-1692b1c064d3",
+              "parentUUID": "2ece6317-6db5-4df6-8865-ca9ab1a76f6b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7c03293b-e0c8-4743-b1d8-1692b1c064d3"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 25320,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "021f1b89-fd66-4bf3-94b3-c3d9933b29ee",
+      "title": "",
+      "fullFile": "cypress\\e2e\\sign_in.cy.js",
+      "file": "cypress\\e2e\\sign_in.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b2d5dddd-03cc-4721-9f55-3cf16ad781cf",
+          "title": "Test d'inscription à la plateforme",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "passes",
+              "fullTitle": "Test d'inscription à la plateforme passes",
+              "timedOut": null,
+              "duration": 13846,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/inscription/');\n//cy.visit('');\n//cy.contains('inscription').click({ force: true });\ncy.get('input[name=\"username\"]').type('test');\ncy.get('input[name=\"email\"]').type('test@example.com');\ncy.get('input[name=\"type_utilisateur\"]').check('association');\ncy.get('input[name=\"password1\"]').type('sofacsofac');\ncy.get('input[name=\"password2\"]').type('sofacsofac');\ncy.get('button[type=\"submit\"]').click();",
+              "err": {},
+              "uuid": "b9ac1b7d-918d-4144-81dc-9cd98f25c313",
+              "parentUUID": "b2d5dddd-03cc-4721-9f55-3cf16ad781cf",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b9ac1b7d-918d-4144-81dc-9cd98f25c313"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 13846,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "7946e491-9d0e-4fe1-9828-e72f0dce3ec3",
+      "title": "",
+      "fullFile": "cypress\\e2e\\spec.cy.js",
+      "file": "cypress\\e2e\\spec.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ce0eed65-af39-4bac-8383-961dc2e19680",
+          "title": "Premier Test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "devra seulement tester ce code et accéder au lien",
+              "fullTitle": "Premier Test devra seulement tester ce code et accéder au lien",
+              "timedOut": null,
+              "duration": 2241,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/');",
+              "err": {},
+              "uuid": "cd7c0324-fabe-47ad-abb7-989873548c0b",
+              "parentUUID": "ce0eed65-af39-4bac-8383-961dc2e19680",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "cd7c0324-fabe-47ad-abb7-989873548c0b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2241,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "43a6867c-2004-4970-919c-93f0f95f0297",
+      "title": "",
+      "fullFile": "cypress\\e2e\\login.cy.js",
+      "file": "cypress\\e2e\\login.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1357f5d4-405c-4fe0-94e1-aca4651f4618",
+          "title": "Test de Connexion à la plateforme",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "passes",
+              "fullTitle": "Test de Connexion à la plateforme passes",
+              "timedOut": null,
+              "duration": 20947,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/');\ncy.contains('Connexion').click({\n  force: true\n}); //force le clic même si l’élément est invisible ou recouvert (utile si, par exemple, le bouton est caché dans un menu déroulant non ouvert).\ncy.get('input[name=\"username\"]').type('Croix_rouge');\ncy.get('input[name=\"password\"]').type('croixcroix');\ncy.get('button[type=\"submit\"]').click();\ncy.contains('Bienvenue').should('be.visible');",
+              "err": {},
+              "uuid": "58f7279f-777e-4bfb-b652-372766570d2d",
+              "parentUUID": "1357f5d4-405c-4fe0-94e1-aca4651f4618",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "58f7279f-777e-4bfb-b652-372766570d2d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 20947,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "39c9c498-5621-41c9-bfca-100bbc7a2516",
+      "title": "",
+      "fullFile": "cypress\\e2e\\missions.cy.js",
+      "file": "cypress\\e2e\\missions.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "2ece6317-6db5-4df6-8865-ca9ab1a76f6b",
+          "title": "Test des Missions",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Ensemble de tests pour la partie missions du projet",
+              "fullTitle": "Test des Missions Ensemble de tests pour la partie missions du projet",
+              "timedOut": null,
+              "duration": 25320,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/');\ncy.get('nav').contains('Notifications').click({\n  force: true\n});\ncy.contains('Connexion').click({\n  force: true\n}); //force le clic même si l’élément est invisible ou recouvert (utile si, par exemple, le bouton est caché dans un menu déroulant non ouvert).\ncy.get('input[name=\"username\"]').type('Croix_rouge');\ncy.get('input[name=\"password\"]').type('croixcroix');\ncy.get('button[type=\"submit\"]').click();\ncy.contains('Bienvenue').should('be.visible');\ncy.get('nav').contains('Missions').click({\n  force: true\n});\ncy.contains('Liste').should('be.visible');\ncy.get('input[name=\"urgent\"]').check();\ncy.contains('Filtrer').click({\n  force: true\n});\ncy.contains('tr', 'Distribution de colis').contains('Modifier').click();\ncy.contains('Modifier la Mission').should('be.visible');\ncy.contains('Retour').click();\ncy.get('nav').contains('Statistiques').click({\n  force: true\n});\ncy.get('h2').contains('Statistiques').should('be.visible');",
+              "err": {},
+              "uuid": "7c03293b-e0c8-4743-b1d8-1692b1c064d3",
+              "parentUUID": "2ece6317-6db5-4df6-8865-ca9ab1a76f6b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7c03293b-e0c8-4743-b1d8-1692b1c064d3"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 25320,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "021f1b89-fd66-4bf3-94b3-c3d9933b29ee",
+      "title": "",
+      "fullFile": "cypress\\e2e\\sign_in.cy.js",
+      "file": "cypress\\e2e\\sign_in.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b2d5dddd-03cc-4721-9f55-3cf16ad781cf",
+          "title": "Test d'inscription à la plateforme",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "passes",
+              "fullTitle": "Test d'inscription à la plateforme passes",
+              "timedOut": null,
+              "duration": 13846,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/inscription/');\n//cy.visit('');\n//cy.contains('inscription').click({ force: true });\ncy.get('input[name=\"username\"]').type('test');\ncy.get('input[name=\"email\"]').type('test@example.com');\ncy.get('input[name=\"type_utilisateur\"]').check('association');\ncy.get('input[name=\"password1\"]').type('sofacsofac');\ncy.get('input[name=\"password2\"]').type('sofacsofac');\ncy.get('button[type=\"submit\"]').click();",
+              "err": {},
+              "uuid": "b9ac1b7d-918d-4144-81dc-9cd98f25c313",
+              "parentUUID": "b2d5dddd-03cc-4721-9f55-3cf16ad781cf",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b9ac1b7d-918d-4144-81dc-9cd98f25c313"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 13846,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "7946e491-9d0e-4fe1-9828-e72f0dce3ec3",
+      "title": "",
+      "fullFile": "cypress\\e2e\\spec.cy.js",
+      "file": "cypress\\e2e\\spec.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ce0eed65-af39-4bac-8383-961dc2e19680",
+          "title": "Premier Test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "devra seulement tester ce code et accéder au lien",
+              "fullTitle": "Premier Test devra seulement tester ce code et accéder au lien",
+              "timedOut": null,
+              "duration": 2241,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/');",
+              "err": {},
+              "uuid": "cd7c0324-fabe-47ad-abb7-989873548c0b",
+              "parentUUID": "ce0eed65-af39-4bac-8383-961dc2e19680",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "cd7c0324-fabe-47ad-abb7-989873548c0b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2241,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "33046b8f-90d4-4c8e-b579-fbae63854227",
+      "title": "",
+      "fullFile": "cypress\\e2e\\spec.cy.js",
+      "file": "cypress\\e2e\\spec.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "866b33ed-b03d-41ee-96dc-3fbe3ff08544",
+          "title": "Premier Test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "devra seulement tester ce code et accéder au lien",
+              "fullTitle": "Premier Test devra seulement tester ce code et accéder au lien",
+              "timedOut": null,
+              "duration": 2856,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:8000/');\ncy.screenshot();",
+              "err": {},
+              "uuid": "872f2970-a637-4177-b62b-ebc64cf1aaef",
+              "parentUUID": "866b33ed-b03d-41ee-96dc-3fbe3ff08544",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "872f2970-a637-4177-b62b-ebc64cf1aaef"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2856,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true,
+        "embeddedScreenshots": true,
+        "inlineAssets": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
